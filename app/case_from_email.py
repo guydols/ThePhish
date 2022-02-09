@@ -10,6 +10,7 @@ import emoji
 import urllib.parse
 import traceback
 import ioc_finder
+import outlookmsgfile
 import thehive4py.api, thehive4py.models, thehive4py.query
 
 # Global variable used for logging
@@ -150,6 +151,7 @@ def obtain_eml(connection, mail_uid, wsl):
 				# Obtain the internal EML file in both cases
 				if mimetype == 'application/octet-stream':
 					eml_payload = part.get_payload(decode=1)
+					eml_payload = outlookmsgfile.load(eml_payload)
 					internal_msg = email.message_from_bytes(eml_payload)
 				elif mimetype == 'message/rfc822':
 					eml_payload = part.get_payload(decode=0)[0]
